@@ -1,0 +1,42 @@
+The Rewindable Entity Iterator<br />
+==============================<br /><br />
+
+Our EntityIterators are composed of a standard PDO PreparedStatement and a <br />
+DataMapper.  The DataMapper maps rows into objects in real time as we iterate <br />
+over the the Statement.  There is a limitation with PDO Statements in that you<br />
+can only iterate over them one time.  <br /><br />
+
+For example:<br /><br />
+
+    // first loop works fine<br />
+    foreach($statement as $result) {<br />
+        // do something with result<br />
+    }<br /><br />
+    
+    // but subsequent loops don't<br />
+    foreach($statement as $result) {<br />
+        // never called <br />
+    }<br /><br />
+
+Since our EntityIterator operates by iterating over the statement it <br />
+can also only be looped over once.  This causes all sorts of problems.<br /><br />
+
+Your Job<br />
+--------<br /><br />
+
+Derive a RewindableEntityIterator from the EntityIterator class.  Your new <br />
+iterator should be rewindable and thus able to iterate over its elements <br />
+repeatedly.  To simplify the task we have used a ResultSet object instead of a <br />
+PDO Statement.  The EntityIterator iterates over the ResultSet object <br />
+directly.  Like the PDO Statement, the ResultSet does not have the ability to rewind.<br /><br />
+
+A few constraints and notes<br />
+---------------------------<br /><br />
+
+* Implement the RewindableEntityIterator class in the src directory<br />
+* Do not alter any other files in the src directory<br />
+* There are quite a few corner cases to consider<br />
+* There is a PHPUnit test file in the tests directory - add additional tests if it's helpful to you.<br />
+* Be conscious of time & space complexity<br /><br />
+
+Good luck<br />
